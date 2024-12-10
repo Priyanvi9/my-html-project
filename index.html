@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive-Page</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f5f5f5;
+      transition: background-color 1s ease-in-out;
+      font-family: Arial, sans-serif;
+      overflow: hidden; 
+    }
+
+    .btn {
+      padding: 15px 30px;
+      font-size: 18px;
+      color: white;
+      background: linear-gradient(135deg, #ff7eb3, #ff758c, #ff9470, #ffd36b);
+      background-size: 300% 300%;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      position: absolute;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.6s ease, box-shadow 0.3s, background-position 1.5s ease-in-out;
+    }
+
+    .btn:hover {
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+      background-position: 100% 0%;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <button class="btn" onclick="interact()">Click Me!<br>👉 👈 </button>
+
+  <script>
+    let positions = ['right', 'left', 'up', 'down'];
+    let index = 0;
+    let colorIndex = 0; 
+    const colors = [
+      '#FF007F', '#FF4500', '#32CD32', '#1E90FF', '#800080', '#FFDAB9', 
+      '#BA55D3', '#FF1493', '#00FA9A', '#7CFC00', '#FF6347', '#EE82EE',
+      '#FF6F61', '#FFB74D', '#FFD700', '#FF8C94', '#F76C6C', '#FF5733', 
+      '#F9A602', '#FFC300', '#FF5733', '#C70039', '#900C3F', '#581845',
+      '#6A5ACD', '#4682B4', '#5F9EA0', '#76EEC6', '#00CED1', '#AFEEEE', 
+      '#ADD8E6', '#87CEEB', '#87CEFA', '#4682B4', '#1E90FF', '#4169E1',
+      '#FFDFD3', '#D5C4F1', '#C3F0CA', '#FFE4E1', '#FFFACD', '#E3F2FD',
+      '#C8E6C9', '#FFECB3', '#E1BEE7', '#F8BBD0', '#D7CCC8', '#CFD8DC'
+
+
+    ];
+
+    function interact() {
+      const selectedColor = colors[colorIndex];
+      document.body.style.backgroundColor = selectedColor;
+
+      colorIndex = (colorIndex + 1) % colors.length;
+
+      const button = document.querySelector('.btn');
+      const rect = button.getBoundingClientRect();
+      const bodyRect = document.body.getBoundingClientRect();
+
+      switch (positions[index]) {
+        case 'right':
+          button.style.transform = `translateX(${Math.min(bodyRect.width - rect.right - 30, 100)}px)`;
+          break;
+        case 'left':
+          button.style.transform = `translateX(-${Math.min(rect.left - 30, 100)}px)`;
+          break;
+        case 'up':
+          button.style.transform = `translateY(-${Math.min(rect.top - 30, 100)}px)`;
+          break;
+        case 'down':
+          button.style.transform = `translateY(${Math.min(bodyRect.height - rect.bottom - 30, 100)}px)`;
+          break;
+      }
+
+      index = (index + 1) % positions.length;
+    }
+  </script>
+</body>
+</html>
